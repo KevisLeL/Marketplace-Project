@@ -13,18 +13,19 @@ const Basket = (props) => {
           <ul class="list-group">
             {props.items.map((item, index) => (
               <li
+                key={index}
                 value={index}
                 class="mx-2 my-2 p-2 card"
                 style={{ backgroundColor: "whitesmoke" }}
-                > 
+              >
                 <BasketItem
-                key={item.name}
-                name={item.name}
-                price={item.price}
-                size={item.size}
-                color={item.color}
-                material={item.material}
-                count={item.count}
+                  key={item.id}
+                  id={item.id}
+                  name={item.name}
+                  price={item.price}
+                  addCount={props.addCount}
+                  restCount={props.restCount}
+                  amount={item.amount}
                 />
               </li>
             ))}
@@ -36,7 +37,9 @@ const Basket = (props) => {
             class="btn btn-warning "
             to={{
               pathname: "/payment",
-              state: { items: props.items, idArr: props.idArr, priceArr: props.priceArr },
+              state: {
+                items: props.items
+              },
             }}
           >
             Go to Payment

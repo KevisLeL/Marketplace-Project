@@ -1,35 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const BasketItem = (props) => {
 
-  let [ count, setCount ] = useState(1);
-  const [ price, setPrice ] = useState(props.price);
-
-
-  const addCount = () => {
-    count += 1;
-    setCount(count);
-    setPrice(props.price * count);
-  };
-  const restCount = () => {
-    count -= 1;
-    setCount(count);
-    setPrice(props.price * count);
-  };
+  let price= props.price * props.amount;
 
     return (
       <React.Fragment>
         
-      {(count >=1) &&
+      {(props.amount >=1) &&
         <div class="list-group-item d-flex justify-content-between align-items-center">
         {props.name} {price} €
-        <button type="button" class="btn btn-primary btn-sm" onClick={()=>addCount()}>
+        <button type="button" class="btn btn-primary btn-sm" onClick={()=>props.addCount(props.id)}>
           +
         </button>
-        <button id="minusButton"type="button" class="btn btn-danger btn-sm" onClick={()=>restCount()} >
+        <button id="minusButton"type="button" class="btn btn-danger btn-sm" onClick={()=>props.restCount(props.id)} >
           -
         </button>
-        <span class="badge badge-primary badge-pill">{count}</span>
+        <span class="badge badge-primary badge-pill">{props.amount}</span>
         </div>
       }
       </React.Fragment>

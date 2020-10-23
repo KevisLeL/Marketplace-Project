@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import Item from './Item';
+import React, { useState } from "react";
+import Item from "./Item";
 
 const ItemsList = (props) => {
-const [clickedIndex, setClickedIndex] = useState(0);
+  const [clickedIndex, setClickedIndex] = useState(0);
 
-
+  if (props.items) {
     return (
       <React.Fragment>
         <div class="row row-cols-3">
@@ -102,6 +102,7 @@ const [clickedIndex, setClickedIndex] = useState(0);
         </div>
       </React.Fragment>
     );
+  }
 };
 
 export default ItemsList;

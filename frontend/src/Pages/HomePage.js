@@ -3,52 +3,60 @@ import Basket from '../Components/Basket';
 import ItemsList from '../Components/ItemsList';
 
 const HomePage = () => {
+  const [items, setItems] = useState([0]);
+  const [basketList, setBasketList] = useState([]);
 
-const [items, setItems] = useState([0]);
-const [basketList, setBasketList] = useState([]);
-const [ idArr, setIdArr ] = useState([]);
-const [ priceArr, setPriceArr ] = useState([]);
-
-const fetchItems = async () => { 
+  const fetchItems = async () => {
     try {
       const responseData = await fetch(
         "http://localhost:5000/api/"
-        ).then((resp) => resp.json());
-        setItems(responseData.items);
-      } catch(err) {
-        alert('Something went wrong, please try again')
-        console.log(err);
-      }
+      ).then((resp) => resp.json());
+      setItems(responseData.items);
+    } catch (err) {
+      alert("Something went wrong, please try again");
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchItems();
+  }, []);
+
+  const addToCartHandler = (item) => {
+    const cart = [...basketList];
+    const basketItem = {
+      amount: 1,
+      id: item.id,
+      name: item.name,
+      price: item.price,
     };
-   
-    useEffect(()=> {
-      
-      fetchItems();
+    cart.push(basketItem);
+    setBasketList(cart);
+  };
 
-  }, [])
+  const addCountHandler = (id) => {
+    const updatedBasketlist = [...basketList];
+    const item = updatedBasketlist.find((e) => e.id === id);
+    item.amount++;
+    setBasketList(updatedBasketlist);
+  };
+  const restCountHandler = (id) => {
+    const updatedBasketlist = [...basketList];
+    const item = updatedBasketlist.find((e) => e.id === id);
+    item.amount -= 1;
+    setBasketList(updatedBasketlist);
+  };
 
-
-const addToCartHandler = (item) =>{
-  const cart = [...basketList];
-  cart.push(item);
-  setBasketList(cart);
-
-  const newIdArr = [...idArr];
-  newIdArr.push(item.id);
-  setIdArr(newIdArr);
-
-  const newPriceArr = [...priceArr];
-  newPriceArr.push(item.price);
-  setPriceArr(newPriceArr);
-}
-
-
-    return (
-       <React.Fragment>
-           <Basket items={basketList} idArr={idArr} priceArr={priceArr}/>
-           <ItemsList items={items} add={addToCartHandler}/>
-       </React.Fragment>
-    )
+  return (
+    <React.Fragment>
+      <Basket
+        items={basketList}
+        addCount={addCountHandler}
+        restCount={restCountHandler}
+      />
+      <ItemsList items={items} add={addToCartHandler} />
+    </React.Fragment>
+  );
 };
 
 export default HomePage;

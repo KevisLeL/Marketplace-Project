@@ -6,6 +6,8 @@
 /frontend/.pnp
 /frontend/.gitignore
 .pnp.js
+debug.log
+.gitignore
 
 # testing
 /coverage
